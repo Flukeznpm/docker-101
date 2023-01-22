@@ -17,12 +17,12 @@ app.use(
 	})
 );
 
-app.use("/test", (req, res) => {
-	res.status(200).send("Hello World!")
-});
+require('./utils/mongo')();
 
 app.use("/user", userRouter);
 
-app.listen(port, () => { console.log(`Server started on port ${port}`); });
+app.use("/", (req, res) => {
+	res.sendFile(__dirname + '/views/index.html');
+});
 
-module.exports = app;
+app.listen(port, () => { console.log(`Server started on port ${port}`); });

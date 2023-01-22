@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  mongo_db:
+    container_name: mongo_db_container
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./src/docker/data/db:/data/db
+
+  api:
+    build: .
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/usr/src/app
+    environment:
+      PORT: 8000
+      MONGODB_URI: mongodb://mongo_db:27017
+      DB_NAME: my_db
+      NAME: Nattapong
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
